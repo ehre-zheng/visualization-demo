@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+   </head>
+   <body style="height: 100%; margin: 0">
+       <div id="container" style="height: 90%"></div>
+       <div> <button onClick="addF()">添加风向指标</button><button onClick="delF()">删除风向指标</button</div>   
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+
+       <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+    
+
+       <script type="text/javascript" src="data/201812030800-wind-small-surface-level-gfs-0.25.js"></script>
+       <script type="text/javascript" src="data/201812030600-wind-small-surface-level-gfs-1.0.js"></script>
+       <script type="text/javascript" src="data/weatherData.js"></script>
+       <script type="text/javascript" src="windForTest.js"></script>
+       <script type="text/javascript">
+var dom = document.getElementById("container");
+var myChart = echarts.init(dom);
+
+option = {
+    visualMap: [
+      {
+        seriesIndex:0,
+        min: VOCs_ppm_minMag,
+        max: VOCs_ppm_maxMag,
+        precision:5,
+        left: 'left',
+        top:20,
+        inRange: {
+         // color: ['#ababab', 'rgba(3,4,5,0.4)', 'red'],
+         color: ['green', 'yellow', 'red'],
+         // symbolSize: [2, 5]
+          // color: ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
+        },
+      //  realtime: false,
+        calculable: true,
+        hoverLink:true,
+        textStyle: {
+            color: 'red'
+        }
+     },
+    {
+        left: 'right',
+        seriesIndex:1,
+        min: wind_minMag,
+        max: wind_maxMag,
+        precision: 5,
+        dimension: 5,
+        inRange: {
+          //color: ['#ababab', 'rgba(3,4,5,0.4)', 'red']
+         // color: ['green', 'yellow', 'red'],
+          color: ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
+        },
+        realtime: false,
+        calculable: true,
+        hoverLink:true,
+        tooltip:{
+
+        },
+        textStyle: {
+            color: 'red'
+        }
+     }
+
+    ],
+    series: [
+           {
+              name: 'wwather',
+              type: 'scatter',
+              coordinateSystem: 'bmap',
+              data: points,
+              // symbolSize: function (val) {
+              //     return val[2] *10;
+              // },
+              symbol: 'rect',
+              // label: {
+              //     normal: {
+              //         formatter: '{c}',
+              //         position: 'right',
+              //         show: false
+              //     },
+              //     emphasis: {
+              //         show: true
+              //     }
+              // },
+              itemStyle: {
+                  normal: {
+                      color: '#1482e5'
+                  },
+                  opacity:0.6
+              }
+          },
+         {
+                type: 'flowGL',
+                coordinateSystem: 'bmap',
+                data: windData,
+                supersampling: 4,
+                particleType: 'line',
+                particleDensity: 30,
+                particleSpeed: 1,
+                itemStyle: {
+                    opacity: 0.8
+                }
+         }
+    ],
+    bmap: {
+        center: [113.9105146, 30.92170696],
+        zoom: 16,
+        roam: true    
+    }
+};;
+
+
+function addF(){
+
+}
+function delF(){
+
+}
+
+
+function initMyChart(){
+  if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+  }
+}
+
+  initMyChart()
+</script>
+   </body>
+</html>
